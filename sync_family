@@ -1,0 +1,26 @@
+#!/bin/bash
+VERIFY_FAMILY="family"
+
+function fetch_keys (){
+	gpg --recv-keys 00KEYID0
+	gpg --recv-keys 00KEYID1 
+}
+
+function verify_family () {
+	gpg --verify $VERIFY_FAMILY
+}
+
+function strip_gpg (){
+	sed -i '4!d' $VERIFY_FAMILY 
+}
+
+function sync_family () {
+sed -i '/MyFamily/d' /etc/tor/torrc &&
+	cat $VERIFY_FAMILY >> /etc/tor/torrc &&
+	service tor restart
+}
+
+fetch_keys &&
+verify_family &&
+strip_gpg &&
+sync_family
