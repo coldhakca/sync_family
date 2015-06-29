@@ -17,7 +17,7 @@ function strip_gpg (){
 function sync_family () {
 sed -i '/MyFamily/d' /etc/tor/torrc &&
 	cat $VERIFY_FAMILY >> /etc/tor/torrc &&
-	kill -HUP tor	
+	killall -HUP tor	
 }
 
 fetch_keys &&
